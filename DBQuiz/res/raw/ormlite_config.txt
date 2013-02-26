@@ -1,0 +1,39 @@
+#
+# generated on 2013/02/25 12:45:49
+#
+# --table-start--
+dataClass=com.eduhern.dbquiz.models.Pregunta
+tableName=pregunta
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=descripcion
+# --field-end--
+# --field-start--
+fieldName=imagen
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.eduhern.dbquiz.models.Respuesta
+tableName=respuesta
+# --table-fields-start--
+# --field-start--
+fieldName=id
+# --field-end--
+# --field-start--
+fieldName=correcta
+# --field-end--
+# --field-start--
+fieldName=descripcion
+# --field-end--
+# --field-start--
+fieldName=id_pregunta
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
