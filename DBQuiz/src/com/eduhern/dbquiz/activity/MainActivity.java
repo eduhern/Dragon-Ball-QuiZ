@@ -1,38 +1,41 @@
 package com.eduhern.dbquiz.activity;
 
-import com.eduhern.dbquiz.R;
-import com.eduhern.dbquiz.database.DatabaseHelper;
-import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
-
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class MainActivity extends OrmLiteBaseActivity<DatabaseHelper> implements OnClickListener {
+import com.eduhern.dbquiz.R;
+import com.eduhern.dbquiz.database.DatabaseHelper;
+import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+public class MainActivity extends OrmLiteBaseActivity<DatabaseHelper> implements
+		OnClickListener {
+	MediaPlayer musica;
 
-        Button boton = (Button)findViewById(R.id.boton1);
-        boton.setOnClickListener(this);             
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
+		final Button boton = (Button) findViewById(R.id.boton1);
+		boton.setOnClickListener(this);
 
-    }
+		musica = MediaPlayer.create(this, R.raw.dbquiz_music);
+		musica.start();
+	}
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
-    }
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
 
 	public void onClick(View arg0) {
+		musica.stop();
 		Intent intent = new Intent(this, QuestionActivity.class);
 		startActivity(intent);
 	}
-	
+
 }

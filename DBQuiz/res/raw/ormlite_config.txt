@@ -1,5 +1,5 @@
 #
-# generated on 2013/02/25 12:45:49
+# generated on 2013/03/07 07:12:40
 #
 # --table-start--
 dataClass=com.eduhern.dbquiz.models.Pregunta
@@ -14,6 +14,18 @@ fieldName=descripcion
 # --field-end--
 # --field-start--
 fieldName=imagen
+# --field-end--
+# --field-start--
+fieldName=categoria
+foreign=true
+foreignAutoRefresh=true
+# --field-end--
+# --field-start--
+fieldName=dificultad
+# --field-end--
+# --field-start--
+fieldName=respuestas
+foreignCollection=true
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -32,7 +44,28 @@ fieldName=correcta
 fieldName=descripcion
 # --field-end--
 # --field-start--
-fieldName=id_pregunta
+fieldName=pregunta
+foreign=true
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.eduhern.dbquiz.models.Categoria
+tableName=categoria
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=descripcion
+# --field-end--
+# --field-start--
+fieldName=fondo
+# --field-end--
+# --field-start--
+fieldName=descripcion_ext
 # --field-end--
 # --table-fields-end--
 # --table-end--

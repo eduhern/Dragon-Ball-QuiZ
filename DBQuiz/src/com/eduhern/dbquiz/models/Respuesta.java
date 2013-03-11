@@ -7,53 +7,59 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Respuesta {
 
 	@DatabaseField
-	int id;
-	
-	@DatabaseField
-	boolean correcta;
-	
-	@DatabaseField
-	String descripcion;
-	
-	@DatabaseField
-	int id_pregunta;
+	private int id;
 
-	public Respuesta(){
+	@DatabaseField
+	private boolean correcta;
+
+	@DatabaseField
+	private String descripcion;
+
+	@DatabaseField(foreign = true)
+	private Pregunta pregunta;
+
+	public Respuesta() {
 	}
-	
+
 	public Respuesta(int id, boolean correcta, String descripcion,
-			int id_pregunta) {
+			Pregunta pregunta) {
 		super();
 		this.id = id;
 		this.correcta = correcta;
 		this.descripcion = descripcion;
-		this.id_pregunta = id_pregunta;
+		this.pregunta = pregunta;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public boolean isCorrecta() {
 		return correcta;
 	}
+
 	public void setCorrecta(boolean correcta) {
 		this.correcta = correcta;
 	}
+
 	public String getDescripcion() {
 		return descripcion;
 	}
+
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public int getId_pregunta() {
-		return id_pregunta;
+
+	public Pregunta getPregunta() {
+		return pregunta;
 	}
-	public void setId_pregunta(int id_pregunta) {
-		this.id_pregunta = id_pregunta;
+
+	public void setPregunta(Pregunta pregunta) {
+		this.pregunta = pregunta;
 	}
-	
-	
+
 }

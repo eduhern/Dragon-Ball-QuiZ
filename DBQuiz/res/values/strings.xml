@@ -8,5 +8,15 @@
     <string name="title_activity_question">Pregunta</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_resultado">ResultadoActivity</string>
+    <string name="copyright">©Akira Toriyama /Bird Studio/Shueisha Inc./Toei Animation/Fuji TV</string>
+    <string name="comenzar">Comenzar</string>
+    <string name="imagen_titulo">Dragon QuiZ</string>
+    <string name="imagen_principal">Gokuh Daizenshuu 1</string>
+    <string name="imagen_categoria">Categoria de la pregunta</string>
+    <string name="imagen_pregunta">Imagen relacionada con la pregunta a responder</string>
+    <string name="resultado_inicial">0</string>
+    <string name="volver_a_jugar">Volver a Jugar</string>
+    <string name="descripcion_imagen_resultado">Imagen resultado</string>
+    <string name="vineta">Viñeta de la lista de resultados</string>
 
 </resources>
