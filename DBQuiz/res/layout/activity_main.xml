@@ -31,7 +31,10 @@
         android:layout_marginTop="10dp"
         android:layout_weight="1.5"
         android:text="@string/comenzar"
-        android:textColor="@android:color/background_dark" />
+		android:alpha="0.7"
+		android:background="@android:color/darker_gray"
+		android:textColor="@android:color/black"         
+         />
 
     <TextView
         android:layout_width="match_parent"
@@ -42,5 +45,6 @@
         android:text="@string/copyright"
         android:textColor="@android:color/black"
         android:textSize="12sp" />
-
+    
+    
 </LinearLayout>

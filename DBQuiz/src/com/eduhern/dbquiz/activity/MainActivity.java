@@ -3,6 +3,9 @@ package com.eduhern.dbquiz.activity;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -11,8 +14,7 @@ import com.eduhern.dbquiz.R;
 import com.eduhern.dbquiz.database.DatabaseHelper;
 import com.j256.ormlite.android.apptools.OrmLiteBaseActivity;
 
-public class MainActivity extends OrmLiteBaseActivity<DatabaseHelper> implements
-		OnClickListener {
+public class MainActivity extends OrmLiteBaseActivity<DatabaseHelper> implements OnClickListener {
 	MediaPlayer musica;
 
 	@Override
@@ -38,4 +40,33 @@ public class MainActivity extends OrmLiteBaseActivity<DatabaseHelper> implements
 		startActivity(intent);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflate = getMenuInflater();
+		inflate.inflate(R.menu.activity_main, menu);
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		switch (item.getItemId()) {
+		case R.id.action_preferencias:
+			final Intent intent = new Intent(this, PreferenciasActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.action_settings:
+			final Intent intent2 = new Intent(this, AyudaActivity.class);
+			startActivity(intent2);
+			break;
+		case R.id.action_acerca_de:
+			final Intent intent3 = new Intent(this, CreditosActivity.class);
+			startActivity(intent3);
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+
+	}
 }

@@ -1,12 +1,13 @@
 package com.eduhern.dbquiz.activity;
 
-import com.eduhern.dbquiz.R;
-
-import android.media.MediaPlayer;
-import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.view.Menu;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
@@ -14,70 +15,125 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.eduhern.dbquiz.R;
+
 public class ResultadoActivity extends Activity implements OnLongClickListener, OnClickListener {
-	ImageView imagen_fin;
-	boolean fin = false;
-	
+	private ImageView imagen_fin;
+	private boolean fin = false;
+	private int respuestasCorrectas;
+	private int maximoPreguntas;
+	private boolean genero = false;
+	private boolean dificultad = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_resultado);
-    	TextView textViewPregunta = (TextView)findViewById(R.id.texto_resultado);
-    	textViewPregunta.setText(getIntent().getStringExtra("resultado")+" respuestas correctas");
-	
-    	imagen_fin = (ImageView)findViewById(R.id.imagen_resultado);
-    	
-    	imagen_fin.setOnLongClickListener(this);
 
-        Button boton = (Button)findViewById(R.id.boton1);
-        boton.setOnClickListener(this); 
-    	
+		SharedPreferences preferencias = PreferenceManager.getDefaultSharedPreferences(this);
+		maximoPreguntas = Integer.parseInt(preferencias.getString("numPreguntas", "30"));
+		genero = !preferencias.getBoolean("genero", false);
+		dificultad = preferencias.getBoolean("dificultad", false);
+
+		TextView textViewPregunta = (TextView) findViewById(R.id.texto_resultado);
+		respuestasCorrectas = Integer.parseInt(getIntent().getStringExtra("resultado"));
+		textViewPregunta.setText(respuestasCorrectas + " de " + maximoPreguntas + " respuestas correctas");
+
+		imagen_fin = (ImageView) findViewById(R.id.imagen_resultado);
+
+		if (!genero) {
+			int id_imagen_resultado = getResources().getIdentifier("foto_camara_principal_g", "drawable", getPackageName());
+			Drawable drawable = getResources().getDrawable(id_imagen_resultado);
+			imagen_fin.setImageDrawable(drawable);
+		}
+
+		imagen_fin.setOnLongClickListener(this);
+
+		Button boton = (Button) findViewById(R.id.boton1);
+		boton.setOnClickListener(this);
+
+		ImageView imagenTwitter = (ImageView) findViewById(R.id.twitter);
+		imagenTwitter.setOnClickListener(this);
 	}
 
 	public void onClick(View v) {
-		finish();
+
+		switch (v.getId()) {
+
+		case R.id.twitter:
+			String tweetUrl = "https://twitter.com/intent/tweet?text=He acertado " + respuestasCorrectas + " de " + maximoPreguntas
+					+ " preguntas en el Dragon Ball QuiZ para Android" + (dificultad ? " (nivel experto)" : " (nivel fácil)")
+					+ ". Ya disponible en Google Play:&url=" + "https://play.google.com/store/apps/details?id=com.eduhern.dbquiz";
+			Uri uri = Uri.parse(tweetUrl);
+			startActivity(new Intent(Intent.ACTION_VIEW, uri));
+			break;
+		default:
+			finish();
+		}
+
 	}
 
 	public boolean onLongClick(View v) {
 		// TODO Auto-generated method stub
 		MediaPlayer musica;
-		
-		if(fin){
-			  musica = MediaPlayer.create(this, R.raw.teletransporte);
-			}else{
-			  musica = MediaPlayer.create(this, R.raw.foto);	
-			}
-		
-		musica.start();
-        
-    	int resultado = Integer.parseInt(getIntent().getStringExtra("resultado"));
-    	int id_imagen_final;
-    	
-    	if(resultado < 5){
-        	id_imagen_final = getResources().getIdentifier("foto_camara_1", "drawable", getPackageName());
-    	}else if(5 <= resultado && resultado < 15){
-        	id_imagen_final = getResources().getIdentifier("foto_camara_2", "drawable", getPackageName());
-    	}else if(15 <= resultado && resultado < 20){
-        	id_imagen_final = getResources().getIdentifier("foto_camara_3", "drawable", getPackageName());    		
-    	}else if(20 <= resultado && resultado < 30){
-        	id_imagen_final = getResources().getIdentifier("foto_camara_4", "drawable", getPackageName()); 			
-    	}else{
-        	id_imagen_final = getResources().getIdentifier("foto_camara_5", "drawable", getPackageName());
-    	}
-    	
-        Drawable drawable = getResources().getDrawable(id_imagen_final);
-    	imagen_fin.setImageDrawable(drawable);
-    	
-    	fin = true;
-    	
-    	return true;
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.resultado, menu);
+		if (fin) {
+			musica = MediaPlayer.create(this, R.raw.teletransporte);
+		} else {
+			if (genero) {
+				musica = MediaPlayer.create(this, R.raw.foto);
+			} else {
+				musica = MediaPlayer.create(this, R.raw.radar);
+
+			}
+		}
+
+		musica.start();
+
+		int id_imagen_final;
+
+		int porcentaje = Math.round((Float.parseFloat(String.valueOf(respuestasCorrectas)) / Float.parseFloat(String.valueOf(maximoPreguntas))) * 100);
+
+		if (genero) {
+			if (porcentaje < 25) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_1", "drawable", getPackageName());
+			} else if (25 <= porcentaje && porcentaje < 50) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_2", "drawable", getPackageName());
+			} else if (50 <= porcentaje && porcentaje < 75) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_3", "drawable", getPackageName());
+			} else if (75 <= porcentaje && porcentaje < 100) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_4", "drawable", getPackageName());
+			} else {
+				if (maximoPreguntas == 50 && dificultad) {
+					id_imagen_final = getResources().getIdentifier("foto_camara_god", "drawable", getPackageName());
+				} else {
+					id_imagen_final = getResources().getIdentifier("foto_camara_5", "drawable", getPackageName());
+
+				}
+			}
+		} else {
+			if (porcentaje < 25) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_1_g", "drawable", getPackageName());
+			} else if (25 <= porcentaje && porcentaje < 50) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_2_g", "drawable", getPackageName());
+			} else if (50 <= porcentaje && porcentaje < 75) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_3_g", "drawable", getPackageName());
+			} else if (75 <= porcentaje && porcentaje < 100) {
+				id_imagen_final = getResources().getIdentifier("foto_camara_4_g", "drawable", getPackageName());
+			} else {
+				if (maximoPreguntas == 50 && dificultad) {
+					id_imagen_final = getResources().getIdentifier("foto_camara_god", "drawable", getPackageName());
+				} else {
+					id_imagen_final = getResources().getIdentifier("foto_camara_5", "drawable", getPackageName());
+
+				}
+			}
+		}
+
+		Drawable drawable = getResources().getDrawable(id_imagen_final);
+		imagen_fin.setImageDrawable(drawable);
+
+		fin = true;
 		return true;
 	}
-
 }
